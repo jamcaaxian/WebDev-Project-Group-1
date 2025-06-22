@@ -1,12 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
+    <title>myUTHM Shop - Cart</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shopping Cart</title>
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    <h1>Your Cart</h1>
-    <p>Items in your cart will be listed here.</p>
+    <header class="navbar">
+        <div class="logo">
+            <img class="logo-img" src="https://uthm.edu.my/images/uthm/favicon/mac_touch-icon.png">
+            <span>myUTHM Shop</span>
+        </div>
+        <nav class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="products.html">Products</a>
+            <a href="login.html">Login</a>
+            <a href="cart.html">Cart</a>
+        </nav>
+    </header>
+
+    <section class="section">
+        <h2>Cart</h2>
+        <ul id="list">
+        </ul>
+        <p><strong id="total"></strong></p>
+        <button>Pay</button>
+    </section>
+
+    <footer class="footer">
+        <p>&copy; 2025 myUTHM Shop</p>
+    </footer>
+
+    <script>
+        const ul = document.getElementById("list");
+
+        const cartItems = $[CartItems];
+
+        let total = 0;
+
+        for (const item in cartItems) {
+            const li = document.createElement("li");
+            li.innerText = `${item.Name} × ${item.Amount} - RM ${item.Price}`;
+
+            ul.appendChild(li);
+
+            total += item.Amount * item.Price;
+        }
+
+        const counter = document.getElementById("total");
+        counter.innerText = `Total: RM ${total}`;
+    </script>
 </body>
+
 </html>

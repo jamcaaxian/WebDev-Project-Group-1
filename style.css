@@ -1,0 +1,152 @@
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
+    height: 2000px;
+}
+
+a {
+    text-decoration: none;
+}
+
+.navbar {
+    background-color: #21177a;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    flex-wrap: wrap;
+    position: fixed;
+    top: 0.5rem;
+    width: 90%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 10px;
+    z-index: 1000;
+}
+
+.navbar .logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+}
+
+.navbar .logo-img {
+    height: 2rem;
+}
+
+.navbar .logo span {
+    font-size: 1.5rem;
+    font-weight: bold;
+    line-height: 1.2;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    margin-left: 1rem;
+    font-weight: 500;
+}
+
+.nav-links a:hover {
+    text-decoration: underline;
+}
+
+.banner {
+    text-align: center;
+    background-color: #eeeef4;
+    padding: 5rem 1rem;
+}
+
+.section {
+    padding: 5rem 1rem;
+    max-width: 1000px;
+    margin: auto;
+}
+
+.product-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    justify-content: center;
+}
+
+.product-card {
+    background: white;
+    padding: 1rem;
+    border-radius: 10px;
+    width: 250px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.2s;
+}
+
+.product-card:hover {
+    transform: scale(1.03);
+}
+
+.product-card img {
+    width: 100%;
+    border-radius: 4px;
+}
+
+.footer {
+    text-align: center;
+    background-color: #21177a;
+    color: white;
+    padding: 1rem;
+    margin-top: 2rem;
+}
+
+form {
+    max-width: 400px;
+    margin: auto;
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+form input,
+form textarea {
+    width: 100%;
+    padding: 0.75rem;
+    margin: 0.5rem 0;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+}
+
+form button {
+    padding: 0.75rem 1.5rem;
+    background-color: #21177a;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+form button:hover {
+    background-color: #980808;
+}
+
+@media (max-width: 600px) {
+    .nav-links {
+        width: 100%;
+        margin-top: 1rem;
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .nav-links a {
+        margin: 0.5rem;
+    }
+
+    .product-card {
+        width: 90%;
+    }
+}
