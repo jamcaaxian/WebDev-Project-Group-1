@@ -115,7 +115,7 @@ export default {
             const { User, Password } = await request.json();
             const result = await query("SELECT * FROM Users WHERE User = ? AND Password = ?", [User, Password]);
             if (result.length > 0) {
-                return new Response(JSON.stringify({ success: true, Uid: result[0].Uid }), {
+                return new Response(JSON.stringify({ success: true, Uid: result[0].Uid, UserName: result[0].UserName }), {
                     headers: { "content-type": "application/json" }
                 });
             } else {
