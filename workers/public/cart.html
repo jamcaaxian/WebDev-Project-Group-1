@@ -2,57 +2,55 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <title>myUTHM Shop - Cart</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <title>myUTHM Shop - Cart</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-  <header class="navbar">
-    <div class="logo">
-      <img class="logo-img" src="https://uthm.edu.my/images/uthm/favicon/mac_touch-icon.png">
-      <span>myUTHM Shop</span>
-    </div>
-    <nav class="nav-links">
-      <a href="index.html">Home</a>
-      <a href="products.html">Products</a>
-      <a href="login.html">Login</a>
-      <a href="cart.html">Cart</a>
-    </nav>
-  </header>
+    <header class="navbar">
+        <div class="logo">
+            <img class="logo-img" src="https://uthm.edu.my/images/uthm/favicon/mac_touch-icon.png">
+            <span>myUTHM Shop</span>
+        </div>
+        <nav class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="products.html">Products</a>
+            <a href="login.html">Login</a>
+            <a href="cart.html">Cart</a>
+        </nav>
+    </header>
 
-  <section class="section">
-    <h2>Cart</h2>
-    <ul id="list"></ul>
-    <p><strong id="total"></strong></p>
-    <button>Pay</button>
-  </section>
+    <section class="section">
+        <h2>Cart</h2>
+        <ul id="list"></ul>
+        <p><strong id="total"></strong></p>
+        <button>Pay</button>
+    </section>
 
-  <footer class="footer">
-    <p>&copy; 2025 myUTHM Shop</p>
-  </footer>
+    <footer class="footer">
+        <p>&copy; 2025 myUTHM Shop</p>
+    </footer>
 
-  <!-- 数据注入 -->
-  <script id="cart-data" type="application/json">
+    <script id="cart-data" type="application/json">
     $[CartItems.JSON]
   </script>
 
-  <!-- 渲染逻辑 -->
-  <script>
-    const ul = document.getElementById("list");
-    const cartItems = JSON.parse(document.getElementById("cart-data").textContent);
-    let total = 0;
+    <script>
+        const ul = document.getElementById("list");
+        const cartItems = JSON.parse(document.getElementById("cart-data").textContent);
+        let total = 0;
 
-    for (const item of cartItems) {
-      const li = document.createElement("li");
-      li.textContent = `${item.ProductName} × ${item.Amount} - RM ${item.Price}`;
-      ul.appendChild(li);
-      total += item.Amount * item.Price;
-    }
+        for (const item of cartItems) {
+            const li = document.createElement("li");
+            li.textContent = `${item.ProductName} × ${item.Amount} - RM ${item.Price}`;
+            ul.appendChild(li);
+            total += item.Amount * item.Price;
+        }
 
-    document.getElementById("total").textContent = `Total: RM ${total}`;
-  </script>
+        document.getElementById("total").textContent = `Total: RM ${total}`;
+    </script>
 </body>
 
 </html>

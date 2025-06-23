@@ -2,70 +2,68 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <title>myUTHM Shop - Products</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <title>myUTHM Shop - Products</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-  <header class="navbar">
-    <div class="logo">
-      <img class="logo-img" src="https://uthm.edu.my/images/uthm/favicon/mac_touch-icon.png">
-      <span>myUTHM Shop</span>
-    </div>
-    <nav class="nav-links">
-      <a href="index.html">Home</a>
-      <a href="products.html">Products</a>
-      <a href="login.html">Login</a>
-      <a href="cart.html">Cart</a>
-    </nav>
-  </header>
+    <header class="navbar">
+        <div class="logo">
+            <img class="logo-img" src="https://uthm.edu.my/images/uthm/favicon/mac_touch-icon.png">
+            <span>myUTHM Shop</span>
+        </div>
+        <nav class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="products.html">Products</a>
+            <a href="login.html">Login</a>
+            <a href="cart.html">Cart</a>
+        </nav>
+    </header>
 
-  <section class="section">
-    <h2 style="text-align:center;">All Products</h2>
-    <div class="product-grid" id="product-grid"></div>
-  </section>
+    <section class="section">
+        <h2 style="text-align:center;">All Products</h2>
+        <div class="product-grid" id="product-grid"></div>
+    </section>
 
-  <footer class="footer">
-    <p>&copy; 2025 myUTHM Shop</p>
-  </footer>
+    <footer class="footer">
+        <p>&copy; 2025 myUTHM Shop</p>
+    </footer>
 
-  <!-- 数据注入 -->
-  <script id="products-data" type="application/json">
+    <script id="products-data" type="application/json">
     $[Products.JSON]
   </script>
 
-  <!-- 渲染逻辑 -->
-  <script>
-    const productGrid = document.getElementById("product-grid");
-    const products = JSON.parse(document.getElementById("products-data").textContent);
+    <script>
+        const productGrid = document.getElementById("product-grid");
+        const products = JSON.parse(document.getElementById("products-data").textContent);
 
-    for (const product of products) {
-      const a = document.createElement("a");
-      a.href = `detail.html?Pid=${product.Pid}`;
+        for (const product of products) {
+            const a = document.createElement("a");
+            a.href = `detail.html?Pid=${product.Pid}`;
 
-      const div = document.createElement("div");
-      div.className = "product-card";
+            const div = document.createElement("div");
+            div.className = "product-card";
 
-      const img = document.createElement("img");
-      img.src = product.Image;
-      img.alt = product.ProductName;
+            const img = document.createElement("img");
+            img.src = product.Image;
+            img.alt = product.ProductName;
 
-      const h3 = document.createElement("h3");
-      h3.textContent = product.ProductName;
+            const h3 = document.createElement("h3");
+            h3.textContent = product.ProductName;
 
-      const p = document.createElement("p");
-      p.textContent = "RM " + product.Price;
+            const p = document.createElement("p");
+            p.textContent = "RM " + product.Price;
 
-      div.appendChild(img);
-      div.appendChild(h3);
-      div.appendChild(p);
-      a.appendChild(div);
+            div.appendChild(img);
+            div.appendChild(h3);
+            div.appendChild(p);
+            a.appendChild(div);
 
-      productGrid.appendChild(a);
-    }
-  </script>
+            productGrid.appendChild(a);
+        }
+    </script>
 </body>
 
 </html>

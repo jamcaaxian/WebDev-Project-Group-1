@@ -2,73 +2,50 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <title>Comments - myUTHM Shop</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <title>Comments</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-  <header class="navbar">
-    <div class="logo">
-      <img class="logo-img" src="https://uthm.edu.my/images/uthm/favicon/mac_touch-icon.png">
-      <span>myUTHM Shop</span>
-    </div>
-    <nav class="nav-links">
-      <a href="index.html">Home</a>
-      <a href="products.html">Products</a>
-      <a href="login.html">Login</a>
-      <a href="cart.html">Cart</a>
-    </nav>
-  </header>
+    <section class="section">
+        <h2>Comments</h2>
+        <ul id="comment-list"></ul>
 
-  <section class="section">
-    <h2>Product Comments</h2>
+        <h3>Leave a Comment</h3>
+        <textarea id="comment-input" rows="4" placeholder="Write your comment..."></textarea><br>
+        <button onclick="submitComment()">Submit</button>
+    </section>
 
-    <ul id="comment-list" style="margin-bottom: 2rem;"></ul>
+    <script>
+        const comments = $[Comments.JSON];
+        const pid = "$[Pid]";
 
-    <h3>Share your comment</h3>
-    <textarea id="comment-input" placeholder="Input your comment here" rows="4"></textarea><br>
-    <button onclick="addComment()">Send</button>
-  </section>
+        function loadComments() {
+            const ul = document.getElementById("comment-list");
+            ul.innerHTML = "";
+            comments.forEach(text => {
+                const li = document.createElement("li");
+                li.textContent = text;
+                ul.appendChild(li);
+            });
+        }
 
-  <footer class="footer">
-    <p>&copy; 2025 myUTHM Shop</p>
-  </footer>
+        async function submitComment() {
+            const input = document.getElementById("comment-input");
+            const comment = input.value.trim();
+            if (!comment) return alert("Comment is empty");
+            await fetch("/comment", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ Pid: pid, Comment: comment })
+            });
+            location.reload();
+        }
 
-  <!-- 数据注入 -->
-  <script id="comments-data" type="application/json">
-    $[Comments.JSON]
-  </script>
-
-  <!-- 渲染逻辑 -->
-  <script>
-    const comments = JSON.parse(document.getElementById("comments-data").textContent) || [];
-
-    function loadComments() {
-      const commentList = document.getElementById("comment-list");
-      commentList.innerHTML = "";
-
-      comments.forEach(entry => {
-        const li = document.createElement("li");
-        li.textContent = entry.Comment;
-        commentList.appendChild(li);
-      });
-    }
-
-    function addComment() {
-      const input = document.getElementById("comment-input");
-      const text = input.value.trim();
-      if (!text) return;
-
-      comments.push({ Comment: text }); // 前端假推入
-
-      input.value = "";
-      loadComments();
-    }
-
-    window.onload = loadComments;
-  </script>
+        loadComments();
+    </script>
 </body>
 
 </html>

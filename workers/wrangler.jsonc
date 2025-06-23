@@ -16,11 +16,7 @@
 			"database_name": "myuthm-shop",
 			"database_id": "fbb99332-06c8-4bb7-ba71-850c8d88067b"
 		}
-	],
-	"assets": {
-		"directory": "./public",
-		"binding": "ASSETS"
-	}
+	]
 	/**
 	 * Smart Placement
 	 * Docs: https://developers.cloudflare.com/workers/configuration/smart-placement/#smart-placement
