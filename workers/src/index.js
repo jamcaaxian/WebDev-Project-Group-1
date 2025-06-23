@@ -1,106 +1,82 @@
 export default {
-  async fetch(request, env, ctx) {
+  async fetch(request, env) {
     const url = new URL(request.url);
     const path = url.pathname;
-    const searchParams = url.searchParams;
+    const search = url.searchParams;
 
-    const render = (template, data) =>
-      template.replace(/\$\[([A-Za-z0-9_\.]+)\]/g, (_, key) => {
-        const keys = key.split(".");
-        return keys.reduce((obj, k) => obj?.[k], data) ?? "";
-      });
-
-    async function getTemplate(filename) {
-      return await env.ASSETS.get(filename);
-    }
-
-    async function query(sql, bindings = []) {
+    // 查询函数
+    async function query(sql, params = []) {
       const stmt = env.DB.prepare(sql);
-      const res = bindings.length ? await stmt.bind(...bindings).all() : await stmt.all();
+      const res = params.length ? await stmt.bind(...params).all() : await stmt.all();
       return res.results || [];
     }
 
-    if (path === "/style.css") {
-      const css = await getTemplate("style.css");
-      return new Response(css, { headers: { "content-type": "text/css" } });
+    // 静态资源模板（作为 text 读取）
+    async function getFile(name) {
+      return await env.ASSETS.get(name, { type: "text" });
     }
 
-    if (path === "/" || path === "/index.html") {
-      const html = await getTemplate("index.html");
-      const top3 = await query("SELECT * FROM Products ORDER BY Sales DESC LIMIT 3");
+    // 简单模板替换：支持 $[Key.SubKey]
+    const render = (tpl, data) =>
+      tpl.replace(/\$\[([A-Za-z0-9_\.]+)\]/g, (_, key) =>
+        key.split(".").reduce((o, k) => o?.[k], data) ?? "");
 
+    // 首页：销量前3产品
+    if (path === "/" || path === "/index.html") {
+      const top3 = await query("SELECT * FROM Products ORDER BY Sales DESC LIMIT 3");
+      const html = await getFile("index.html");
       return new Response(render(html, {
         ProductA: top3[0] || {},
         ProductB: top3[1] || {},
         ProductC: top3[2] || {}
-      }), {
-        headers: { "content-type": "text/html; charset=UTF-8" }
-      });
+      }), { headers: { "content-type": "text/html" } });
     }
 
+    // 所有产品 products.html（以 JSON 渲染到页面）
     if (path === "/products.html") {
-      const html = await getTemplate("products.html");
       const products = await query("SELECT * FROM Products");
+      const html = await getFile("products.html");
       return new Response(render(html, {
         Products: { JSON: JSON.stringify(products) }
-      }), {
-        headers: { "content-type": "text/html; charset=UTF-8" }
-      });
+      }), { headers: { "content-type": "text/html" } });
     }
 
+    // 产品详情页 detail.html?Pid=xxx
     if (path === "/detail.html") {
-      const pid = searchParams.get("Pid");
-      if (!pid) return new Response("Missing Pid", { status: 400 });
-
-      const html = await getTemplate("detail.html");
+      const pid = search.get("Pid");
       const product = (await query("SELECT * FROM Products WHERE Pid = ?", [pid]))[0];
-      return new Response(render(html, {
-        Product: product || {}
-      }), {
-        headers: { "content-type": "text/html; charset=UTF-8" }
+      const html = await getFile("detail.html");
+      return new Response(render(html, { Product: product || {} }), {
+        headers: { "content-type": "text/html" }
       });
     }
 
+    // 购物车页 cart.html?Uid=xxx
     if (path === "/cart.html") {
-      const uid = searchParams.get("Uid");
-      if (!uid) return new Response("Missing Uid", { status: 400 });
-
-      const html = await getTemplate("cart.html");
+      const uid = search.get("Uid");
       const user = (await query("SELECT * FROM Users WHERE Uid = ?", [uid]))[0];
-      let cartItems = [];
-
-      try {
-        cartItems = user?.Cart ? JSON.parse(user.Cart) : [];
-      } catch {
-        cartItems = [];
-      }
-
+      const cart = JSON.parse(user?.Cart || "[]");
+      const html = await getFile("cart.html");
       return new Response(render(html, {
-        CartItems: { JSON: JSON.stringify(cartItems) }
-      }), {
-        headers: { "content-type": "text/html; charset=UTF-8" }
-      });
+        CartItems: { JSON: JSON.stringify(cart) }
+      }), { headers: { "content-type": "text/html" } });
     }
 
+    // 评论页 comment.html?Pid=xxx
     if (path === "/comment.html") {
-      const pid = searchParams.get("Pid");
-      if (!pid) return new Response("Missing Pid", { status: 400 });
-
-      const html = await getTemplate("comment.html");
-      const rows = await query("SELECT Comment FROM Comments WHERE Pid = ?", [pid]);
-      const comments = rows.map(r => r.Comment);
-
+      const pid = search.get("Pid");
+      const comments = await query("SELECT * FROM Comments WHERE Pid = ?", [pid]);
+      const html = await getFile("comment.html");
       return new Response(render(html, {
-        Comments: { JSON: JSON.stringify(comments) }
-      }), {
-        headers: { "content-type": "text/html; charset=UTF-8" }
-      });
+        Comments: { JSON: JSON.stringify(comments.map(c => c.Comment)) }
+      }), { headers: { "content-type": "text/html" } });
     }
 
-    if (path === "/login.html") {
-      const html = await getTemplate("login.html");
-      return new Response(html, {
-        headers: { "content-type": "text/html; charset=UTF-8" }
+    // 静态样式文件
+    if (path === "/style.css") {
+      const css = await env.ASSETS.get("style.css", { type: "text" });
+      return new Response(css, {
+        headers: { "content-type": "text/css" }
       });
     }
 
