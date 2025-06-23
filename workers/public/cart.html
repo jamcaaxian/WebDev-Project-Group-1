@@ -36,8 +36,8 @@
     </footer>
 
     <script>
-        const uid = localStorage.getItem("uid");
-        if (!uid) {
+        const userId = localStorage.getItem("uid");
+        if (!userId) {
             alert("Please login first.");
             location.href = "login.html";
         }
@@ -49,7 +49,7 @@
         cartData.forEach((item, index) => {
             const li = document.createElement("li");
             li.innerHTML = `${item.ProductName} × ${item.Amount} - RM ${item.Price} 
-        <button onclick="removeItem(${index})">❌</button>`;
+      <button onclick="removeItem(${index})">❌</button>`;
             ul.appendChild(li);
             total += item.Amount * item.Price;
         });
@@ -76,7 +76,7 @@
             await fetch("/update-cart", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ Uid: uid, Cart: newCart })
+                body: JSON.stringify({ Uid: userId, Cart: newCart })
             });
         }
     </script>
