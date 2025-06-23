@@ -9,20 +9,6 @@
 </head>
 
 <body>
-    <header class="navbar">
-        <div class="logo">
-            <img class="logo-img" src="https://uthm.edu.my/images/uthm/favicon/mac_touch-icon.png">
-            <span>myUTHM Shop</span>
-        </div>
-        <nav class="nav-links">
-            <a href="index">Home</a>
-            <a href="products">Products</a>
-            <span id="username" style="color:white; font-weight:bold;"></span>
-            <a href="login" id="loginLink">Login</a>
-            <a href="cart" id="cartLink">Cart</a>
-            <a href="#" id="logoutLink" onclick="logout()" style="display:none;">Logout</a>
-        </nav>
-    </header>
     <section class="section">
         <h2>Comments</h2>
         <ul id="comment-list"></ul>
@@ -31,29 +17,6 @@
         <textarea id="comment-input" rows="4" placeholder="Write your comment..."></textarea><br>
         <button onclick="submitComment()">Submit</button>
     </section>
-
-    <script>
-        const uid = localStorage.getItem("uid");
-        const name = localStorage.getItem("username");
-
-        const cartLink = document.getElementById("cartLink");
-        const loginLink = document.getElementById("loginLink");
-        const logoutLink = document.getElementById("logoutLink");
-        const usernameSpan = document.getElementById("username");
-
-        if (uid) {
-            if (cartLink) cartLink.href = `cart?Uid=${uid}`;
-            if (loginLink) loginLink.style.display = "none";
-            if (logoutLink) logoutLink.style.display = "inline-block";
-            if (usernameSpan) usernameSpan.textContent = name || "User";
-        }
-
-        function logout() {
-            localStorage.removeItem("uid");
-            localStorage.removeItem("username");
-            location.href = "login";
-        }
-    </script>
 
     <script>
         const comments = $[Comments.JSON];
