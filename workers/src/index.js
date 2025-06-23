@@ -82,7 +82,7 @@ export default {
             return new Response(JSON.stringify({ status: "ok" }), { headers: { "content-type": "application/json" } });
         }
 
-        if (path === "/" || path === "/index.html") {
+        if (path === "/" || path === "/index") {
             const top3 = await query("SELECT * FROM Products ORDER BY Sales DESC LIMIT 3");
             const html = await getTemplate("index.html");
             return new Response(render(html, {
@@ -92,7 +92,7 @@ export default {
             }), { headers: { "content-type": "text/html" } });
         }
 
-        if (path === "/products.html") {
+        if (path === "/products") {
             const products = await query("SELECT * FROM Products");
             const html = await getTemplate("products.html");
             return new Response(render(html, {
@@ -100,7 +100,7 @@ export default {
             }), { headers: { "content-type": "text/html" } });
         }
 
-        if (path === "/detail.html") {
+        if (path === "/detail") {
             const pid = search.get("Pid");
             const product = (await query("SELECT * FROM Products WHERE Pid = ?", [pid]))[0];
             const comments = await query("SELECT Comment FROM Comments WHERE Pid = ?", [pid]);
@@ -125,12 +125,12 @@ export default {
             }
         }
 
-        if (path === "/login.html") {
+        if (path === "/login") {
             const html = await getTemplate("login.html");
             return new Response(html, { headers: { "content-type": "text/html" } });
         }
 
-        if (path === "/cart.html") {
+        if (path === "/cart") {
             const uid = search.get("Uid");
             const user = (await query("SELECT * FROM Users WHERE Uid = ?", [uid]))[0];
             const cart = user?.Cart ? JSON.parse(user.Cart) : [];
@@ -140,7 +140,7 @@ export default {
             }), { headers: { "content-type": "text/html" } });
         }
 
-        if (path === "/comment.html") {
+        if (path === "/comment") {
             const pid = search.get("Pid");
             const comments = await query("SELECT Comment FROM Comments WHERE Pid = ?", [pid]);
             const html = await getTemplate("comment.html");
