@@ -15,10 +15,10 @@
             <span>myUTHM Shop</span>
         </div>
         <nav class="nav-links">
-            <a href="index.html">Home</a>
-            <a href="products.html">Products</a>
-            <a href="login.html">Login</a>
-            <a href="cart.html">Cart</a>
+            <a href="index">Home</a>
+            <a href="products">Products</a>
+            <a href="login">Login</a>
+            <a href="cart">Cart</a>
         </nav>
     </header>
 
@@ -41,7 +41,7 @@
 
         for (const product of products) {
             const a = document.createElement("a");
-            a.href = `detail.html?Pid=${product.Pid}`;
+            a.href = `detail?Pid=${product.Pid}`;
 
             const div = document.createElement("div");
             div.className = "product-card";

@@ -15,10 +15,10 @@
             <span>myUTHM Shop</span>
         </div>
         <nav class="nav-links">
-            <a href="index.html">Home</a>
-            <a href="products.html">Products</a>
-            <a href="login.html">Login</a>
-            <a href="cart.html">Cart</a>
+            <a href="index">Home</a>
+            <a href="products">Products</a>
+            <a href="login">Login</a>
+            <a href="cart">Cart</a>
         </nav>
     </header>
 
@@ -42,7 +42,7 @@
         const userId = localStorage.getItem("uid");
         if (!userId) {
             alert("Please login first.");
-            location.href = "login.html";
+            location.href = "login";
         }
 
         const cartData = $[CartItems.JSON];

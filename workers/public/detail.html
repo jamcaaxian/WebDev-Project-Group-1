@@ -15,10 +15,10 @@
             <span>myUTHM Shop</span>
         </div>
         <nav class="nav-links">
-            <a href="index.html">Home</a>
-            <a href="products.html">Products</a>
-            <a href="login.html">Login</a>
-            <a href="cart.html" id="cartLink">Cart</a>
+            <a href="index">Home</a>
+            <a href="products">Products</a>
+            <a href="login">Login</a>
+            <a href="cart" id="cartLink">Cart</a>
         </nav>
     </header>
 
@@ -51,7 +51,7 @@
         const urlParams = new URLSearchParams(location.search);
         const Pid = urlParams.get("Pid");
         const cartLink = document.getElementById("cartLink");
-        if (uid) cartLink.href = `cart.html?Uid=${uid}`;
+        if (uid) cartLink.href = `cart?Uid=${uid}`;
 
         async function addToCart() {
             if (!uid) return alert("Please login first");

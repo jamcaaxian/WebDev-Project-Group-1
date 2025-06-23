@@ -15,10 +15,10 @@
             <span>myUTHM Shop</span>
         </div>
         <nav class="nav-links">
-            <a href="index.html">Home</a>
-            <a href="products.html">Products</a>
-            <a href="login.html">Login</a>
-            <a href="cart.html" id="cartLink">Cart</a>
+            <a href="index">Home</a>
+            <a href="products">Products</a>
+            <a href="login">Login</a>
+            <a href="cart" id="cartLink">Cart</a>
         </nav>
     </header>
 
@@ -34,7 +34,7 @@
 
     <script>
         const uid = localStorage.getItem("uid");
-        if (uid) document.getElementById("cartLink").href = `cart.html?Uid=${uid}`;
+        if (uid) document.getElementById("cartLink").href = `cart?Uid=${uid}`;
 
         async function login() {
             const User = document.getElementById("user").value.trim();
@@ -47,7 +47,7 @@
             const result = await res.json();
             if (result.success) {
                 localStorage.setItem("uid", result.Uid);
-                location.href = `cart.html?Uid=${result.Uid}`;
+                location.href = `cart?Uid=${result.Uid}`;
             } else {
                 document.getElementById("message").textContent = "Invalid credentials.";
             }

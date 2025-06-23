@@ -15,10 +15,10 @@
             <span>myUTHM Shop</span>
         </div>
         <nav class="nav-links">
-            <a href="index.html">Home</a>
-            <a href="products.html">Products</a>
-            <a href="login.html">Login</a>
-            <a href="cart.html">Cart</a>
+            <a href="index">Home</a>
+            <a href="products">Products</a>
+            <a href="login">Login</a>
+            <a href="cart">Cart</a>
             <a href="#" onclick="logout()">Logout</a>
         </nav>
     </header>
@@ -31,21 +31,21 @@
     <section class="section">
         <h2 style="text-align:center;">Popular Products</h2>
         <div class="product-grid">
-            <a href="detail.html?Pid=$[ProductA.Pid]">
+            <a href="detail?Pid=$[ProductA.Pid]">
                 <div class="product-card">
                     <img src="$[ProductA.Image]" alt="$[ProductA.ProductName]" />
                     <h3>$[ProductA.ProductName]</h3>
                     <p>RM $[ProductA.Price]</p>
                 </div>
             </a>
-            <a href="detail.html?Pid=$[ProductB.Pid]">
+            <a href="detail?Pid=$[ProductB.Pid]">
                 <div class="product-card">
                     <img src="$[ProductB.Image]" alt="$[ProductB.ProductName]" />
                     <h3>$[ProductB.ProductName]</h3>
                     <p>RM $[ProductB.Price]</p>
                 </div>
             </a>
-            <a href="detail.html?Pid=$[ProductC.Pid]">
+            <a href="detail?Pid=$[ProductC.Pid]">
                 <div class="product-card">
                     <img src="$[ProductC.Image]" alt="$[ProductC.ProductName]" />
                     <h3>$[ProductC.ProductName]</h3>
@@ -62,7 +62,7 @@
     <script>
         function logout() {
             localStorage.removeItem("uid");
-            location.href = "login.html";
+            location.href = "login";
         }
     </script>
 </body>
