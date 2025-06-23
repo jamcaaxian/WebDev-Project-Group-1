@@ -66,13 +66,29 @@ export default {
             }), { headers: { "content-type": "text/html" } });
         }
 
+        if (request.method === "POST" && path === "/login") {
+            const { User, Password } = await request.json();
+            const result = await query("SELECT * FROM Users WHERE User = ? AND Password = ?", [User, Password]);
+            if (result.length > 0) {
+                return new Response(JSON.stringify({ success: true, Uid: result[0].Uid }), {
+                    headers: { "content-type": "application/json" }
+                });
+            } else {
+                return new Response(JSON.stringify({ success: false }), {
+                    headers: { "content-type": "application/json" }
+                });
+            }
+        }
+
+        if (path === "/login.html") {
+            const html = await getTemplate("login.html");
+            return new Response(html, { headers: { "content-type": "text/html" } });
+        }
+
         if (path === "/cart.html") {
             const uid = search.get("Uid");
             const user = (await query("SELECT * FROM Users WHERE Uid = ?", [uid]))[0];
-            let cart = [];
-            try {
-                cart = JSON.parse(user?.Cart || "[]");
-            } catch { }
+            const cart = user?.Cart ? JSON.parse(user.Cart) : [];
             const html = await getTemplate("cart.html");
             return new Response(render(html, {
                 CartItems: { JSON: JSON.stringify(cart) }

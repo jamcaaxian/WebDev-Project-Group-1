@@ -19,6 +19,7 @@
             <a href="products.html">Products</a>
             <a href="login.html">Login</a>
             <a href="cart.html">Cart</a>
+            <a href="#" onclick="logout()">Logout</a>
         </nav>
     </header>
 
@@ -57,6 +58,13 @@
     <footer class="footer">
         <p>&copy; 2025 myUTHM Shop. All rights reserved.</p>
     </footer>
+
+    <script>
+        function logout() {
+            localStorage.removeItem("uid");
+            location.href = "login.html";
+        }
+    </script>
 </body>
 
 </html>

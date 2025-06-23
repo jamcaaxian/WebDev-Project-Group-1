@@ -38,19 +38,22 @@
   </script>
 
     <script>
-        const ul = document.getElementById("list");
-        const cartItems = JSON.parse(document.getElementById("cart-data").textContent);
-        let total = 0;
+        const uid = localStorage.getItem("uid");
+        if (!uid) {
+            alert("Please login first.");
+            location.href = "login.html";
+        } else {
+            const ul = document.getElementById("list");
+            let total = 0;
 
-        for (const item of cartItems) {
-            const li = document.createElement("li");
-            li.textContent = `${item.ProductName} × ${item.Amount} - RM ${item.Price}`;
-            ul.appendChild(li);
-            total += item.Amount * item.Price;
+            fetch(`/cart.html?Uid=${uid}`)
+                .then(res => res.text())
+                .then(html => {
+                    document.open(); document.write(html); document.close();
+                });
         }
-
-        document.getElementById("total").textContent = `Total: RM ${total}`;
     </script>
+
 </body>
 
 </html>
