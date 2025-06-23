@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Product Detail</title>
+    <title>myUTHM Shop - Product Detail</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
 </head>
@@ -18,7 +18,7 @@
             <a href="index.html">Home</a>
             <a href="products.html">Products</a>
             <a href="login.html">Login</a>
-            <a href="cart.html">Cart</a>
+            <a href="cart.html" id="cartLink">Cart</a>
         </nav>
     </header>
 
@@ -27,49 +27,57 @@
         <img src="$[Product.Image]" alt="$[Product.ProductName]" style="width:100%; max-width:300px;">
         <p>Price: RM $[Product.Price]</p>
         <p>$[Product.Detail]</p>
-        <button onclick="alert('Added to your cart')">Add to cart</button>
-    </section>
 
-    <section class="section">
+        <label>Amount:</label>
+        <input type="number" id="amount" value="1" min="1"><br><br>
+        <button onclick="addToCart()">Add to my cart</button>
+        <p id="msg" style="color:green;"></p>
+
+        <hr>
         <h3>Comments</h3>
         <ul id="comment-list"></ul>
-
-        <h4>Leave a comment</h4>
-        <textarea id="comment-input" rows="3" placeholder="Your comment here..."></textarea><br>
-        <button onclick="submitComment()">Submit</button>
+        <textarea id="comment-input" placeholder="Write comment..." rows="3"></textarea><br>
+        <button onclick="addComment()">Submit Comment</button>
     </section>
 
-    <footer class="footer">
-        <p>&copy; 2025 myUTHM Shop</p>
-    </footer>
-
     <script>
-        const comments = $[Comments.JSON];
-        const pid = "$[Product.Pid]";
+        const uid = localStorage.getItem("uid");
+        const urlParams = new URLSearchParams(location.search);
+        const Pid = urlParams.get("Pid");
+        const cartLink = document.getElementById("cartLink");
+        if (uid) cartLink.href = `cart.html?Uid=${uid}`;
 
-        function loadComments() {
-            const ul = document.getElementById("comment-list");
-            ul.innerHTML = "";
-            comments.forEach(text => {
-                const li = document.createElement("li");
-                li.textContent = text;
-                ul.appendChild(li);
+        async function addToCart() {
+            if (!uid) return alert("Please login first");
+            const amount = parseInt(document.getElementById("amount").value);
+            const res = await fetch("/add-to-cart", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ Uid: uid, Pid, Amount: amount })
             });
+            const data = await res.json();
+            document.getElementById("msg").textContent = data.success ? "Added to cart!" : "Failed.";
         }
 
-        async function submitComment() {
-            const input = document.getElementById("comment-input");
-            const comment = input.value.trim();
-            if (!comment) return alert("Empty comment");
+        // 加载评论
+        const comments = $[Comments.JSON];
+        const ul = document.getElementById("comment-list");
+        comments.forEach(text => {
+            const li = document.createElement("li");
+            li.textContent = text;
+            ul.appendChild(li);
+        });
+
+        async function addComment() {
+            const text = document.getElementById("comment-input").value.trim();
+            if (!text) return;
             await fetch("/comment", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ Pid: pid, Comment: comment })
+                body: JSON.stringify({ Pid, Comment: text })
             });
             location.reload();
         }
-
-        loadComments();
     </script>
 </body>
 

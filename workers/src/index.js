@@ -27,6 +27,38 @@ export default {
             return res.results || [];
         }
 
+        if (request.method === "POST" && path === "/add-to-cart") {
+            const { Uid, Pid, Amount } = await request.json();
+            if (!Uid || !Pid || !Amount) return new Response("Missing data", { status: 400 });
+
+            const user = (await query("SELECT * FROM Users WHERE Uid = ?", [Uid]))[0];
+            let cart = [];
+            try { cart = JSON.parse(user?.Cart || "[]"); } catch { }
+
+            const product = (await query("SELECT * FROM Products WHERE Pid = ?", [Pid]))[0];
+            if (!product) return new Response("Product not found", { status: 404 });
+
+            const index = cart.findIndex(item => item.Pid === Pid);
+            if (index >= 0) {
+                cart[index].Amount += Amount;
+            } else {
+                cart.push({
+                    Pid,
+                    ProductName: product.ProductName,
+                    Price: product.Price,
+                    Amount
+                });
+            }
+
+            await env.DB.prepare("UPDATE Users SET Cart = ? WHERE Uid = ?")
+                .bind(JSON.stringify(cart), Uid)
+                .run();
+
+            return new Response(JSON.stringify({ success: true }), {
+                headers: { "content-type": "application/json" }
+            });
+        }
+
         if (request.method === "POST" && path === "/comment") {
             const form = await request.json();
             const { Pid, Comment } = form;
