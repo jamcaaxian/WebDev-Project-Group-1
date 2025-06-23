@@ -25,6 +25,7 @@ export default {
     if (path === "/" || path === "/index.html") {
       const top3 = await query("SELECT * FROM Products ORDER BY Sales DESC LIMIT 3");
       const html = await getFile("index.html");
+      console.log(top3);
       return new Response(render(html, {
         ProductA: top3[0] || {},
         ProductB: top3[1] || {},
