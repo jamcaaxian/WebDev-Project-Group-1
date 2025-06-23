@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>myUTHM Shop - Home</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header class="navbar">
+        <div class="logo">
+            <img class="logo-img" src="https://uthm.edu.my/images/uthm/favicon/mac_touch-icon.png">
+            <span>myUTHM Shop</span>
+        </div>
+        <nav class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="products.html">Products</a>
+            <a href="login.html">Login</a>
+            <a href="cart.html">Cart</a>
+        </nav>
+    </header>
+
+    <section class="banner">
+        <h1>Welcome to myUTHM Shop!</h1>
+        <p>Explore our products for all UTHM students.</p>
+    </section>
+
+    <section class="section">
+        <h2 style="text-align:center;">Popular Products</h2>
+        <div class="product-grid">
+            <a href="detail.html?Pid=$[Products.A.Pid]">
+                <div class="product-card">
+                    <img src="$[Products.A.Image]" alt="$[Products.A.Name]" />
+                    <h3>$[Products.A.Name]</h3>
+                    <p>$[Products.A.Price]</p>
+                </div>
+            </a>
+            <a href="detail.html?Pid=$[Products.B.Pid]">
+                <div class="product-card">
+                    <img src="$[Products.B.Image]" alt="$[Products.B.Name]" />
+                    <h3>$[Products.B.Name]</h3>
+                    <p>$[Products.B.Price]</p>
+                </div>
+            </a>
+            <a href="detail.html?Pid=$[Products.C.Pid]">
+                <div class="product-card">
+                    <img src="$[Products.C.Image]" alt="$[Products.C.Name]" />
+                    <h3>$[Products.C.Name]</h3>
+                    <p>$[Products.C.Price]</p>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>&copy; 2025 myUTHM Shop. All rights reserved.</p>
+    </footer>
+</body>
+
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>myUTHM Shop - Products</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header class="navbar">
+        <div class="logo">
+            <img class="logo-img" src="https://uthm.edu.my/images/uthm/favicon/mac_touch-icon.png">
+            <span>myUTHM Shop</span>
+        </div>
+        <nav class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="products.html">Products</a>
+            <a href="login.html">Login</a>
+            <a href="cart.html">Cart</a>
+        </nav>
+    </header>
+
+    <section class="section">
+        <h2 style="text-align:center;">All Products</h2>
+        <div class="product-grid"></div>
+    </section>
+
+    <footer class="footer">
+        <p>&copy; 2025 myUTHM Shop</p>
+    </footer>
+
+    <script>
+        const productGrid = document.getElementsByClassName("product-grid")[0];
+
+        const allProducts = $[Products];
+
+        for (const product in allProducts) {
+            const a = document.createElement("a");
+            a.herf = `detail.html?Pid=${product.Pid}`;
+            
+            const div = document.createElement("div");
+            div.className = "product-card";
+
+            const img = document.createElement("img");
+            img.src = product.Image;
+            img.alt = product.Name;
+            
+            const h3 = document.createElement("h3");
+            h3.innerText = product.Name;
+            
+            const p = document.createElement("p");
+            p.innerText = product.Price;
+
+            div.appendChild(img);
+            div.appendChild(h3);
+            div.appendChild(p);
+
+            productGrid.appendChild(div);
+        }
+    </script>
+</body>
+
+</html>
