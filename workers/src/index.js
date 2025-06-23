@@ -59,6 +59,19 @@ export default {
             });
         }
 
+        if (request.method === "POST" && path === "/update-cart") {
+            const { Uid, Cart } = await request.json();
+            if (!Uid || !Array.isArray(Cart)) {
+                return new Response("Invalid data", { status: 400 });
+            }
+            await env.DB.prepare("UPDATE Users SET Cart = ? WHERE Uid = ?")
+                .bind(JSON.stringify(Cart), Uid)
+                .run();
+            return new Response(JSON.stringify({ success: true }), {
+                headers: { "content-type": "application/json" }
+            });
+        }
+
         if (request.method === "POST" && path === "/comment") {
             const form = await request.json();
             const { Pid, Comment } = form;
