@@ -55,13 +55,18 @@
 
         cartData.forEach((item, index) => {
             const li = document.createElement("li");
+            li.style.display = "flex";
             li.style.padding = "0.5rem";
+            li.style.paddingLeft = "1rem";
+            li.style.borderRadius = "10px";
             li.style.marginBottom = "0.5rem";
-            li.style.borderBottom = "1px solid #ccc";
+            li.style.backgroundColor = "#eee";
+            li.style.alignItems = "center";
+            li.style.justifyContent = "space - between";
             li.innerHTML = `
-        <strong>${item.ProductName}</strong> × ${item.Amount} - RM ${item.Price}
-        <button style="float:right;" onclick="removeItem(${index})">❌</button>
-      `;
+                <strong>${item.ProductName}</strong> × ${item.Amount} - RM ${item.Price}
+                <button style="float:right;" onclick="removeItem(${index})">❌</button>
+            `;
             ul.appendChild(li);
             total += item.Amount * item.Price;
         });
