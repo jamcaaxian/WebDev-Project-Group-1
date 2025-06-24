@@ -49,40 +49,49 @@
             location.href = "login";
         }
 
-        const cartData = $[CartItems.JSON];
         const ul = document.getElementById("list");
         let total = 0;
+        let cartData = [];
 
-        cartData.forEach((item, index) => {
-            const li = document.createElement("li");
-            li.style.display = "flex";
-            li.style.padding = "0.5rem";
-            li.style.paddingLeft = "1rem";
-            li.style.borderRadius = "10px";
-            li.style.marginBottom = "0.5rem";
-            li.style.backgroundColor = "#eee";
-            li.style.alignItems = "center";
-            li.style.justifyContent = "space-between";
-            li.innerHTML = `
+        async function loadCart() {
+            const res = await fetch("/api/cart", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ Uid: userId })
+            });
+            cartData = await res.json();
+            total = 0;
+            ul.innerHTML = "";
+            cartData.forEach((item, index) => {
+                const li = document.createElement("li");
+                li.style.display = "flex";
+                li.style.padding = "0.5rem";
+                li.style.paddingLeft = "1rem";
+                li.style.borderRadius = "10px";
+                li.style.marginBottom = "0.5rem";
+                li.style.backgroundColor = "#eee";
+                li.style.alignItems = "center";
+                li.style.justifyContent = "space-between";
+                li.innerHTML = `
                 <strong>${item.ProductName}</strong> × ${item.Amount} - RM ${item.Price}
                 <button style="float:right;" onclick="removeItem(${index})">❌</button>
             `;
-            ul.appendChild(li);
-            total += item.Amount * item.Price;
-        });
-
-        document.getElementById("total").innerText = `Total: RM ${total}`;
+                ul.appendChild(li);
+                total += item.Amount * item.Price;
+            });
+            document.getElementById("total").innerText = `Total: RM ${total}`;
+        }
 
         async function removeItem(index) {
             cartData.splice(index, 1);
             await updateCart(cartData);
-            location.reload();
+            loadCart();
         }
 
         async function clearCart() {
             if (!confirm("Clear all items from your cart?")) return;
             await updateCart([]);
-            location.reload();
+            loadCart();
         }
 
         async function pay() {
@@ -96,6 +105,8 @@
                 body: JSON.stringify({ Uid: userId, Cart: newCart })
             });
         }
+
+        loadCart();
     </script>
 </body>
 

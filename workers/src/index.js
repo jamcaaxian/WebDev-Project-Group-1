@@ -169,13 +169,22 @@ export default {
         }
 
         if (path === "/cart") {
-            const uid = search.get("Uid");
-            const user = (await query("SELECT * FROM Users WHERE Uid = ?", [uid]))[0];
-            const cart = user?.Cart ? JSON.parse(user.Cart) : [];
             const html = await getTemplate("cart.html");
-            return new Response(render(html, {
-                CartItems: { JSON: JSON.stringify(cart) }
-            }), { headers: { "content-type": "text/html" } });
+            return new Response(html, {
+                headers: { "content-type": "text/html" }
+            });
+        }
+
+        if (request.method === "POST" && path === "/api/cart") {
+            const { Uid } = await request.json();
+            if (!Uid) return new Response("Missing uid", { status: 400 });
+
+            const user = (await query("SELECT * FROM Users WHERE Uid = ?", [Uid]))[0];
+            const cart = user?.Cart ? JSON.parse(user.Cart) : [];
+
+            return new Response(JSON.stringify(cart), {
+                headers: { "content-type": "application/json" }
+            });
         }
 
         if (path === "/comment") {
