@@ -125,6 +125,44 @@ export default {
             }
         }
 
+        if (request.method === "GET" && path === "/check-user") {
+            const user = search.get("User");
+            if (!user) {
+                return new Response(JSON.stringify({ exists: false }), {
+                    headers: { "content-type": "application/json" }
+                });
+            }
+            const result = await query("SELECT 1 FROM Users WHERE User = ?", [user]);
+            return new Response(JSON.stringify({ exists: result.length > 0 }), {
+                headers: { "content-type": "application/json" }
+            });
+        }
+
+        if (request.method === "POST" && path === "/register") {
+            const { User, Password } = await request.json();
+            if (!User || !Password) {
+                return new Response(JSON.stringify({ success: false, message: "Missing data" }), {
+                    headers: { "content-type": "application/json" }
+                });
+            }
+
+            const exists = await query("SELECT 1 FROM Users WHERE User = ?", [User]);
+            if (exists.length > 0) {
+                return new Response(JSON.stringify({ success: false, message: "User exists" }), {
+                    headers: { "content-type": "application/json" }
+                });
+            }
+
+            const Uid = crypto.randomUUID();
+            await env.DB.prepare("INSERT INTO Users (User, Uid, Password, Cart) VALUES (?, ?, ?, ?)")
+                .bind(User, Uid, Password, "[]")
+                .run();
+
+            return new Response(JSON.stringify({ success: true, Uid }), {
+                headers: { "content-type": "application/json" }
+            });
+        }
+
         if (path === "/login") {
             const html = await getTemplate("login.html");
             return new Response(html, { headers: { "content-type": "text/html" } });

@@ -22,12 +22,24 @@
     </header>
 
     <section class="section">
+        <!-- 登录表单 -->
         <form onsubmit="event.preventDefault(); login();">
             <h2 style="text-align:center;">Login</h2>
             <input id="user" placeholder="Username" required>
             <input id="pass" type="password" placeholder="Password" required>
             <button type="submit">Login</button>
             <p id="message" style="color:red; text-align:center;"></p>
+        </form>
+
+        <hr style="margin: 40px 0;">
+
+        <!-- 注册表单 -->
+        <form onsubmit="event.preventDefault(); register();">
+            <h2 style="text-align:center;">Register</h2>
+            <input id="reg-user" placeholder="Username" required>
+            <input id="reg-pass" type="password" placeholder="Password" required>
+            <button type="submit">Register</button>
+            <p id="reg-message" style="color:red; text-align:center;"></p>
         </form>
     </section>
 
@@ -49,6 +61,35 @@
                 location.href = `cart?Uid=${result.Uid}`;
             } else {
                 document.getElementById("message").textContent = "Invalid credentials.";
+            }
+        }
+
+        async function register() {
+            const User = document.getElementById("reg-user").value.trim();
+            const Password = document.getElementById("reg-pass").value.trim();
+            const msg = document.getElementById("reg-message");
+            msg.textContent = "";
+
+            // 1. 检查用户名是否存在
+            const check = await fetch(`/check-user?User=${encodeURIComponent(User)}`);
+            const exists = await check.json();
+            if (exists.exists) {
+                msg.textContent = "Username already exists.";
+                return;
+            }
+
+            // 2. 注册用户
+            const res = await fetch("/register", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ User, Password })
+            });
+            const result = await res.json();
+            if (result.success) {
+                localStorage.setItem("uid", result.Uid);
+                location.href = `cart?Uid=${result.Uid}`;
+            } else {
+                msg.textContent = "Registration failed.";
             }
         }
     </script>
