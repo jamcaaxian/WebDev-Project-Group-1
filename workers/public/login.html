@@ -102,7 +102,7 @@
             const result = await res.json();
             if (result.success) {
                 localStorage.setItem("uid", result.Uid);
-                location.href = `cart?Uid=${result.Uid}`;
+                location.href = `cart`;
             } else {
                 msg.textContent = "Registration failed.";
             }
