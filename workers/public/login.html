@@ -21,31 +21,48 @@
         </nav>
     </header>
 
-    <section class="section">
-        <!-- 登录表单 -->
-        <form onsubmit="event.preventDefault(); login();">
-            <h2 style="text-align:center;">Login</h2>
-            <input id="user" placeholder="Username" required>
-            <input id="pass" type="password" placeholder="Password" required>
-            <button type="submit">Login</button>
-            <p id="message" style="color:red; text-align:center;"></p>
-        </form>
-
-        <hr style="margin: 40px 0;">
-
-        <!-- 注册表单 -->
-        <form onsubmit="event.preventDefault(); register();">
-            <h2 style="text-align:center;">Register</h2>
-            <input id="reg-user" placeholder="Username" required>
-            <input id="reg-pass" type="password" placeholder="Password" required>
-            <button type="submit">Register</button>
-            <p id="reg-message" style="color:red; text-align:center;"></p>
-        </form>
+    <section class="banner">
+        <h1>Start Your Shopping Here</h1>
+        <p>Explore our products for all UTHM students.</p>
     </section>
+
+    <section class="section">
+        <div class="card-container" id="cardContainer">
+            <form class="card login-card" onsubmit="event.preventDefault(); login();">
+                <h2>Login</h2>
+                <input id="user" placeholder="Username" required>
+                <input id="pass" type="password" placeholder="Password" required>
+                <button type="submit">Login</button>
+                <p id="message"></p>
+                <div class="toggle-link" onclick="flipCard()">Create account</div>
+            </form>
+
+            <form class="card register-card" onsubmit="event.preventDefault(); register();">
+                <h2>Register</h2>
+                <input id="reg-user" placeholder="Username" required>
+                <input id="reg-pass" type="password" placeholder="Password" required>
+                <button type="submit">Register</button>
+                <p id="reg-message"></p>
+                <div class="toggle-link" onclick="flipCard()">Back to Login</div>
+            </form>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>&copy; 2025 myUTHM Shop. All rights reserved.</p>
+    </footer>
 
     <script>
         const uid = localStorage.getItem("uid");
         if (uid) document.getElementById("cartLink").href = `cart?Uid=${uid}`;
+
+        const cardContainer = document.getElementById("cardContainer");
+
+        function flipCard() {
+            cardContainer.classList.toggle("flipped");
+            document.getElementById("message").textContent = "";
+            document.getElementById("reg-message").textContent = "";
+        }
 
         async function login() {
             const User = document.getElementById("user").value.trim();
@@ -70,7 +87,6 @@
             const msg = document.getElementById("reg-message");
             msg.textContent = "";
 
-            // 1. 检查用户名是否存在
             const check = await fetch(`/check-user?User=${encodeURIComponent(User)}`);
             const exists = await check.json();
             if (exists.exists) {
@@ -78,7 +94,6 @@
                 return;
             }
 
-            // 2. 注册用户
             const res = await fetch("/register", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },

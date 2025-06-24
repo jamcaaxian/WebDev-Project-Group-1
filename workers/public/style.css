@@ -10,7 +10,8 @@ a {
 }
 
 .navbar {
-    background-color: #21177a;
+    background-color: #21177aaa;
+    backdrop-filter: blur(5px);
     color: white;
     display: flex;
     justify-content: space-between;
@@ -45,24 +46,41 @@ a {
 }
 
 .nav-links a {
+    padding: 0.5rem;
+    border-radius: 10px;
     color: white;
     text-decoration: none;
-    margin-left: 1rem;
     font-weight: 500;
+    transition: all 0.3s ease-in-out;
+}
+
+.current {
+    background: #98080880;
+    padding: 0.5rem;
+    border-radius: 10px;
 }
 
 .nav-links a:hover {
-    text-decoration: underline;
+    background: #980808;
+    padding: 0.5rem;
+    border-radius: 10px;
+    transition: all 0.3s ease-in-out;
 }
 
 .banner {
+    background-image: url("https://uthm.edu.my/templates/yootheme/cache/96/wakaftr-9659fcb2.webp");
+    background-size: cover;
+    background-position: center;
+    position: relative;
+
     text-align: center;
-    background-color: #eeeef4;
-    padding: 5rem 1rem;
+    color: #eeeef4;
+    text-shadow: #333 2px 2px 5px;
+    padding: 6rem 1rem 3rem 1rem;
 }
 
 .section {
-    padding: 5rem 1rem;
+    padding: 6rem 1rem;
     max-width: 1000px;
     margin: auto;
 }
@@ -91,6 +109,16 @@ a {
 .product-card img {
     width: 100%;
     border-radius: 4px;
+}
+
+.product-card h3 {
+    color: #21177a;
+}
+
+.product-card p {
+    background-color: #eee;
+    border-radius: 5px;
+    color: #333
 }
 
 .footer {
@@ -148,4 +176,86 @@ form button:hover {
     .product-card {
         width: 90%;
     }
+}
+
+.card-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    position: relative;
+    margin: auto;
+    perspective: 1000px;
+    min-height: 400px;
+}
+
+.card {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    position: absolute;
+    width: 100%;
+    backface-visibility: hidden;
+    transition: transform 0.6s ease-in-out;
+    top: 0;
+}
+
+.card h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+    color: #21177a;
+}
+
+.card input {
+    width: 94%;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-size: 1rem;
+}
+
+.card button {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: #21177a;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.card button:hover {
+    background-color: #980808;
+}
+
+.toggle-link {
+    text-align: center;
+    color: #21177a;
+    cursor: pointer;
+    font-size: 0.9rem;
+    margin-top: 1rem;
+    text-decoration: underline;
+}
+
+#message,
+#reg-message {
+    text-align: center;
+    font-size: 0.9rem;
+    color: red;
+}
+
+.register-card {
+    transform: rotateY(180deg);
+}
+
+.card-container.flipped .login-card {
+    transform: rotateY(180deg);
+}
+
+.card-container.flipped .register-card {
+    transform: rotateY(360deg);
 }
